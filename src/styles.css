@@ -5,9 +5,9 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Design system — "New Keys, Old Gold"
- * Warm ivory paper, deep emerald ink, antique gold accents.
- * Display type: Cormorant Garamond. Body: Jost.
+ * Design system — "Sri Gruhapravesam • Traditional Royal Indian"
+ * Imperial Crimson & Maroon, Antique Temple Gold Foil, Raw-Silk Sacred Ivory.
+ * Display type: Noto Serif Telugu / Cormorant Garamond.
  */
 
 @theme inline {
@@ -42,58 +42,60 @@
   --color-deep: var(--deep);
   --color-deeper: var(--deeper);
   --color-marigold: var(--marigold);
-  --font-display: "Cormorant Garamond", "Georgia", serif;
-  --font-body: "Jost", "Segoe UI", sans-serif;
+  --color-maroon: var(--maroon);
+  --font-display: "Noto Serif Telugu", "Cormorant Garamond", "Georgia", serif;
+  --font-body: "Noto Sans Telugu", "Jost", -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(0.977 0.014 84);
-  --foreground: oklch(0.26 0.035 55);
-  --card: oklch(0.995 0.006 84);
-  --card-foreground: oklch(0.26 0.035 55);
-  --popover: oklch(0.995 0.006 84);
-  --popover-foreground: oklch(0.26 0.035 55);
-  --primary: oklch(0.37 0.06 168);
-  --primary-foreground: oklch(0.985 0.012 84);
-  --secondary: oklch(0.938 0.022 84);
-  --secondary-foreground: oklch(0.32 0.04 168);
-  --muted: oklch(0.935 0.02 82);
-  --muted-foreground: oklch(0.52 0.03 60);
-  --accent: oklch(0.9 0.045 82);
-  --accent-foreground: oklch(0.3 0.05 60);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.985 0.012 84);
-  --border: oklch(0.885 0.025 80);
-  --input: oklch(0.885 0.025 80);
-  --ring: oklch(0.72 0.11 78);
-  --gold: oklch(0.74 0.105 78);
-  --gold-deep: oklch(0.6 0.095 70);
-  --deep: oklch(0.29 0.045 195);
-  --deeper: oklch(0.21 0.04 200);
-  --marigold: oklch(0.78 0.15 68);
+  --radius: 0.75rem;
+  --background: #FAF6EE;
+  --foreground: #2A1810;
+  --card: #FFFDF9;
+  --card-foreground: #2A1810;
+  --popover: #FFFDF9;
+  --popover-foreground: #2A1810;
+  --primary: #5A0E17;
+  --primary-foreground: #FFF9EE;
+  --secondary: #F4EADA;
+  --secondary-foreground: #400A10;
+  --muted: #EFE6D5;
+  --muted-foreground: #6B5B52;
+  --accent: #E5C378;
+  --accent-foreground: #381A05;
+  --destructive: #B3261E;
+  --destructive-foreground: #FFFFFF;
+  --border: #D8C3A0;
+  --input: #D8C3A0;
+  --ring: #D4AF37;
+  --gold: #C6A66B;
+  --gold-deep: #8E6B2A;
+  --deep: #38080E;
+  --deeper: #240509;
+  --marigold: #FF8F00;
+  --maroon: #5A0E17;
 }
 
 .dark {
-  --background: oklch(0.21 0.04 200);
-  --foreground: oklch(0.984 0.003 247.858);
-  --card: oklch(0.26 0.045 200);
-  --card-foreground: oklch(0.984 0.003 247.858);
-  --popover: oklch(0.26 0.045 200);
-  --popover-foreground: oklch(0.984 0.003 247.858);
-  --primary: oklch(0.74 0.105 78);
-  --primary-foreground: oklch(0.21 0.04 200);
-  --secondary: oklch(0.3 0.045 200);
-  --secondary-foreground: oklch(0.984 0.003 247.858);
-  --muted: oklch(0.3 0.045 200);
-  --muted-foreground: oklch(0.72 0.03 80);
-  --accent: oklch(0.3 0.045 200);
-  --accent-foreground: oklch(0.984 0.003 247.858);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.74 0.105 78);
+  --background: #1A0407;
+  --foreground: #FFFDF9;
+  --card: #2B090F;
+  --card-foreground: #FFFDF9;
+  --popover: #2B090F;
+  --popover-foreground: #FFFDF9;
+  --primary: #D4AF37;
+  --primary-foreground: #240509;
+  --secondary: #3D1017;
+  --secondary-foreground: #FFFDF9;
+  --muted: #3D1017;
+  --muted-foreground: #D4C3B5;
+  --accent: #D4AF37;
+  --accent-foreground: #1A0407;
+  --destructive: #E53935;
+  --destructive-foreground: #FFFFFF;
+  --border: #6B232D;
+  --input: #6B232D;
+  --ring: #D4AF37;
 }
 
 @layer base {
@@ -106,15 +108,67 @@
     color: var(--color-foreground);
     font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(rgba(198, 166, 107, 0.08) 1px, transparent 1px);
+    background-size: 24px 24px;
   }
 
   ::selection {
-    background: var(--gold);
-    color: var(--deeper);
+    background: #D4AF37;
+    color: #240509;
   }
 }
 
-/* ---------- Ornaments & motion ---------- */
+/* ---------- Traditional Indian Animations ---------- */
+
+@keyframes diya-flicker {
+  0%, 100% {
+    transform: scale(1) rotate(-1deg);
+    opacity: 0.96;
+    filter: drop-shadow(0 0 10px rgba(255, 170, 0, 0.95));
+  }
+  25% {
+    transform: scale(1.05, 0.96) rotate(1.5deg);
+    opacity: 1;
+    filter: drop-shadow(0 0 14px rgba(255, 200, 0, 1));
+  }
+  50% {
+    transform: scale(0.97, 1.04) rotate(-0.5deg);
+    opacity: 0.92;
+    filter: drop-shadow(0 0 8px rgba(255, 140, 0, 0.85));
+  }
+  75% {
+    transform: scale(1.03, 0.98) rotate(1deg);
+    opacity: 0.98;
+    filter: drop-shadow(0 0 12px rgba(255, 180, 0, 0.95));
+  }
+}
+
+.animate-diya-flicker {
+  animation: diya-flicker 2.4s ease-in-out infinite;
+  transform-origin: 50% 90%;
+}
+
+@keyframes falling-petal {
+  0% {
+    transform: translate3d(0, -50px, 0) rotate(0deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.9;
+  }
+  85% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate3d(var(--drift-x, 24px), 105vh, 0) rotate(var(--rotate-deg, 280deg));
+    opacity: 0;
+  }
+}
+
+.animate-falling-petal {
+  animation: falling-petal linear infinite;
+  pointer-events: none;
+}
 
 @keyframes shimmer {
   to {
@@ -122,26 +176,8 @@
   }
 }
 
-@keyframes drift-up {
-  0% {
-    transform: translate3d(0, 10vh, 0) scale(0.6);
-    opacity: 0;
-  }
-  12% {
-    opacity: 0.9;
-  }
-  85% {
-    opacity: 0.5;
-  }
-  100% {
-    transform: translate3d(var(--drift-x, 24px), -105vh, 0) scale(1.15);
-    opacity: 0;
-  }
-}
-
 @keyframes float-soft {
-  0%,
-  100% {
+  0%, 100% {
     transform: translateY(0);
   }
   50% {
@@ -153,17 +189,21 @@
   .text-gold-shimmer {
     background: linear-gradient(
       110deg,
-      var(--gold-deep) 15%,
-      oklch(0.95 0.06 92) 38%,
-      var(--gold) 52%,
-      oklch(0.95 0.06 92) 66%,
-      var(--gold-deep) 85%
+      #9C7423 15%,
+      #FFF6CF 38%,
+      #D4AF37 52%,
+      #FFF6CF 66%,
+      #9C7423 85%
     );
     background-size: 200% auto;
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
     animation: shimmer 6s linear infinite;
+  }
+
+  .text-gold-emboss {
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6), 0 -1px 1px rgba(0, 0, 0, 0.3);
   }
 
   .ember {
@@ -174,8 +214,8 @@
     border-radius: 9999px;
     background: radial-gradient(
       circle,
-      oklch(0.88 0.12 84 / 0.95) 0%,
-      oklch(0.78 0.14 68 / 0.5) 45%,
+      rgba(255, 215, 0, 0.95) 0%,
+      rgba(255, 140, 0, 0.6) 45%,
       transparent 72%
     );
     filter: blur(1px);
@@ -187,13 +227,46 @@
     animation: float-soft 5s ease-in-out infinite;
   }
 
+  /* Traditional Heavy Card with Double Gold Foil Border & Shadow */
+  .traditional-card {
+    background: #FFFDF9;
+    border: 2px solid rgba(198, 166, 107, 0.45);
+    border-radius: 1rem;
+    box-shadow: 0 16px 40px -10px rgba(90, 14, 23, 0.12), 0 2px 6px rgba(0, 0, 0, 0.04);
+    position: relative;
+  }
+
+  .traditional-card::before {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    border: 1px dashed rgba(198, 166, 107, 0.35);
+    border-radius: 0.75rem;
+    pointer-events: none;
+  }
+
+  /* Ornate Corner Flourish */
+  .ornate-corners {
+    position: relative;
+  }
+
+  .ornate-corners::after {
+    content: "❖";
+    position: absolute;
+    top: 6px;
+    left: 8px;
+    font-size: 10px;
+    color: #C6A66B;
+    opacity: 0.8;
+  }
+
   .gold-hairline {
     background: linear-gradient(
       90deg,
       transparent,
-      var(--gold) 30%,
-      oklch(0.93 0.05 88) 50%,
-      var(--gold) 70%,
+      #C6A66B 30%,
+      #FFF0C2 50%,
+      #C6A66B 70%,
       transparent
     );
   }
