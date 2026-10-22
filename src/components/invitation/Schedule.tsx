@@ -1,118 +1,54 @@
 import { motion } from "motion/react";
 import { invitation } from "@/lib/invitation";
-import { useLanguage } from "@/lib/LanguageContext";
-import { Ornament } from "./Reveal";
-import { Flame, Sun, Sparkles, DoorOpen, BookOpen, Utensils, Heart } from "lucide-react";
-
-const getIcon = (type: string) => {
-  switch (type) {
-    case "flame":
-      return <Flame className="h-5 w-5 text-amber-500" />;
-    case "sun":
-      return <Sun className="h-5 w-5 text-amber-500" />;
-    case "sparkles":
-      return <Sparkles className="h-5 w-5 text-amber-500" />;
-    case "door":
-      return <DoorOpen className="h-5 w-5 text-amber-500" />;
-    case "book":
-      return <BookOpen className="h-5 w-5 text-amber-500" />;
-    case "utensils":
-      return <Utensils className="h-5 w-5 text-amber-500" />;
-    default:
-      return <Heart className="h-5 w-5 text-amber-500" />;
-  }
-};
+import { SectionHeading } from "./Reveal";
 
 export function Schedule() {
-  const { t, language } = useLanguage();
-
   return (
-    <section id="schedule" className="relative overflow-hidden py-20 sm:py-28 bg-[#FAF6EE]">
-      <div className="mx-auto max-w-5xl px-4 sm:px-6">
-        {/* Section Header */}
-        <div className="flex flex-col items-center text-center mb-16">
-          <div className="inline-flex items-center gap-2 rounded-full border border-amber-600/40 bg-amber-50 px-5 py-1 shadow-sm">
-            <span className="text-xs font-bold uppercase tracking-[0.3em] text-[#7A121D]">
-              {language === "te" ? "పూజా క్రతువుల వివరాలు" : "Chronological Ceremony Schedule"}
-            </span>
-          </div>
+    <section id="schedule" className="py-24 sm:py-32">
+      <div className="mx-auto max-w-3xl px-6">
+        <SectionHeading
+          eyebrow="Order of the day"
+          title="The ceremony schedule"
+          intro="One unhurried day. Arrive when you can — the door stays open."
+        />
 
-          <h2 className="font-serif mt-4 text-3xl sm:text-5xl font-bold text-[#4A0E15] tracking-tight">
-            {language === "te"
-              ? "మంగళప్రదమైన గృహప్రవేశ క్రతువులు"
-              : "Sacred Rituals & Festive Sequence"}
-          </h2>
+        <div className="relative mt-16">
+          {/* Gold rail */}
+          <div
+            className="absolute top-2 bottom-2 left-[15px] w-px bg-gradient-to-b from-transparent via-gold/60 to-transparent sm:left-[19px]"
+            aria-hidden
+          />
 
-          <p className="mt-3 max-w-xl text-sm sm:text-base text-[#6B5B52] font-serif">
-            {language === "te"
-              ? "వేద మంత్రోచ్ఛారణల నడుమ నిర్వహించబడు పవిత్ర పూజా కార్యక్రమాలు"
-              : "Consecrated poojas and celebratory gatherings held on the auspicious day"}
-          </p>
-
-          <Ornament className="mt-4" />
-        </div>
-
-        {/* Heavy Ornate Timeline Container */}
-        <div className="relative">
-          {/* Vertical Golden Spine Line */}
-          <div className="absolute left-4 sm:left-1/2 top-4 bottom-4 w-1 -translate-x-1/2 bg-gradient-to-b from-amber-400 via-amber-600 to-amber-400 shadow-sm" />
-
-          <div className="space-y-8 sm:space-y-12">
-            {invitation.schedule.map((item, index) => {
-              const isEven = index % 2 === 0;
-
-              return (
+          <ol className="space-y-10">
+            {invitation.schedule.map((item, i) => (
+              <li key={item.title}>
                 <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 25 }}
+                  initial={{ opacity: 0, y: 32 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className={`relative flex flex-col sm:flex-row items-start ${
-                    isEven ? "sm:flex-row-reverse" : ""
-                  }`}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{ duration: 0.8, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                  className="relative flex gap-6 sm:gap-8"
                 >
-                  {/* Central Timeline Medallion Icon */}
-                  <div className="absolute left-4 sm:left-1/2 -translate-x-1/2 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full border-2 border-amber-400 bg-gradient-to-br from-[#4A0E15] to-[#2B060B] shadow-lg z-10">
-                    {getIcon(item.icon)}
-                  </div>
-
-                  {/* Spacer for Desktop Layout */}
-                  <div className="hidden sm:block w-1/2" />
-
-                  {/* Event Card Content */}
-                  <div
-                    className={`ml-12 sm:ml-0 w-[calc(100%-3rem)] sm:w-[calc(50%-2.5rem)] ${
-                      isEven ? "sm:pr-6" : "sm:pl-6"
-                    }`}
-                  >
-                    <div className="traditional-card p-5 sm:p-6 border-2 border-amber-500/40 bg-[#FFFDF9] shadow-[0_10px_30px_rgba(90,14,23,0.08)] hover:border-amber-500 transition-all duration-300">
-                      {/* Top Time & Badge Pill */}
-                      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-amber-200/80 pb-3 mb-3">
-                        <span className="font-serif text-sm sm:text-base font-bold text-[#7A121D] tracking-wide">
-                          {item.time}
-                        </span>
-
-                        <span className="rounded-full bg-amber-100 px-3 py-0.5 text-[11px] font-bold text-[#5A0E17] border border-amber-300">
-                          {t(item.badge)}
-                        </span>
-                      </div>
-
-                      {/* Event Title */}
-                      <h3 className="font-serif text-lg sm:text-xl font-bold text-[#4A0E15]">
-                        {t(item.title)}
+                  <span className="relative z-10 mt-1.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-gold/50 bg-card sm:h-10 sm:w-10">
+                    <span className="h-2 w-2 rotate-45 bg-gold" />
+                  </span>
+                  <div className="flex-1 rounded-2xl border border-border bg-card p-6 shadow-[0_18px_40px_-30px_rgb(0_0_0/0.4)] transition-shadow hover:shadow-[0_24px_50px_-28px_rgb(0_0_0/0.45)] sm:p-7">
+                    <div className="flex flex-wrap items-baseline justify-between gap-2">
+                      <h3 className="font-display text-2xl font-medium sm:text-3xl">
+                        {item.title}
                       </h3>
-
-                      {/* Event Description Note */}
-                      <p className="mt-2 text-xs sm:text-sm leading-relaxed text-[#594B42]">
-                        {t(item.note)}
-                      </p>
+                      <span className="text-xs font-medium uppercase tracking-[0.25em] text-gold-deep">
+                        {item.time}
+                      </span>
                     </div>
+                    <p className="mt-3 text-sm leading-relaxed font-light text-muted-foreground">
+                      {item.note}
+                    </p>
                   </div>
                 </motion.div>
-              );
-            })}
-          </div>
+              </li>
+            ))}
+          </ol>
         </div>
       </div>
     </section>

@@ -1,133 +1,93 @@
-import { useState } from "react";
+import { motion } from "motion/react";
+import { Car, MapPin, Navigation, TramFront } from "lucide-react";
 import { invitation } from "@/lib/invitation";
-import { useLanguage } from "@/lib/LanguageContext";
-import { Ornament } from "./Reveal";
-import { MapPin, Navigation, Copy, Check, Compass, Car } from "lucide-react";
+import { SectionHeading } from "./Reveal";
+
+const MAPS_URL =
+  "https://www.google.com/maps/search/?api=1&query=Indiranagar%2C+Bengaluru%2C+Karnataka+560038";
+const EMBED_URL =
+  "https://www.google.com/maps?q=Indiranagar%2C%20Bengaluru%2C%20Karnataka%20560038&output=embed";
 
 export function Venue() {
-  const { t, language } = useLanguage();
-  const [copied, setCopied] = useState(false);
-
-  const fullAddress = `${t(invitation.addressLine)}, ${t(invitation.city)}`;
-
-  const handleCopy = () => {
-    navigator.clipboard.writeText(fullAddress);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 3000);
-  };
-
-  const mapsUrl = "https://maps.google.com/?q=17.3984,78.3752";
-
   return (
-    <section id="venue" className="relative overflow-hidden py-20 sm:py-28 bg-[#FAF6EE]">
-      <div className="mx-auto max-w-5xl px-4 sm:px-6">
-        {/* Section Header */}
-        <div className="flex flex-col items-center text-center mb-14">
-          <div className="inline-flex items-center gap-2 rounded-full border border-amber-600/40 bg-amber-50 px-5 py-1 shadow-sm">
-            <span className="text-xs font-bold uppercase tracking-[0.3em] text-[#7A121D]">
-              {language === "te" ? "వేదిక & మార్గదర్శనం" : "Venue Location & Directions"}
-            </span>
-          </div>
+    <section id="venue" className="py-24 sm:py-32">
+      <div className="mx-auto max-w-6xl px-6">
+        <SectionHeading
+          eyebrow="Finding us"
+          title="Venue & directions"
+          intro="Rose Villa is the one with marigolds on the gate — you can't miss it."
+        />
 
-          <h2 className="font-serif mt-4 text-3xl sm:text-5xl font-bold text-[#4A0E15] tracking-tight">
-            {language === "te"
-              ? "నూతన గృహ ప్రదేశం వివరాలు"
-              : "How to Reach Sri Ananda Nilayam"}
-          </h2>
-
-          <Ornament className="mt-4" />
-        </div>
-
-        {/* Heavy Ornate Venue Card */}
-        <div className="traditional-card p-6 sm:p-10 border-2 border-amber-500/50 bg-[#FFFDF9] shadow-[0_20px_50px_rgba(90,14,23,0.12)]">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            {/* Address Details */}
+        <div className="mt-16 grid items-stretch gap-6 lg:grid-cols-5">
+          <motion.div
+            initial={{ opacity: 0, x: -32 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+            className="flex flex-col justify-between gap-8 rounded-2xl border border-border bg-card p-8 shadow-[0_24px_50px_-32px_rgb(0_0_0/0.4)] lg:col-span-2"
+          >
             <div>
-              <div className="flex items-center gap-2 mb-3">
-                <MapPin className="h-5 w-5 text-red-700" />
-                <span className="text-xs font-bold uppercase tracking-widest text-[#7A121D]">
-                  {language === "te" ? "నూతన నివాసం" : "Residence Address"}
-                </span>
-              </div>
-
-              <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#4A0E15]">
-                {t(invitation.houseName)}
-              </h3>
-
-              <p className="font-serif text-base sm:text-lg font-medium text-[#7A121D] mt-1">
-                {t(invitation.family)}
+              <p className="text-[11px] font-medium uppercase tracking-[0.35em] text-gold-deep">
+                The address
               </p>
-
-              <div className="mt-4 rounded-xl border border-amber-300 bg-amber-50/70 p-4 text-sm leading-relaxed text-[#3D2C24]">
-                <p className="font-semibold text-[#4A0E15]">
-                  {t(invitation.addressLine)}
-                </p>
-                <p className="mt-1 text-xs text-[#5C4538]">
-                  {t(invitation.city)}
-                </p>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="mt-6 flex flex-wrap items-center gap-3">
-                <a
-                  href={mapsUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full border-2 border-amber-400 bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 px-6 py-2.5 text-xs sm:text-sm font-bold uppercase tracking-wider text-amber-950 shadow-md transition-transform duration-300 hover:scale-105 active:scale-95"
-                >
-                  <Navigation className="h-4 w-4" />
-                  <span>{language === "te" ? "గూగుల్ మ్యాప్స్‌లో తెరవండి" : "Open in Google Maps"}</span>
-                </a>
-
-                <button
-                  type="button"
-                  onClick={handleCopy}
-                  className="inline-flex items-center gap-2 rounded-full border border-amber-400/80 bg-white px-5 py-2.5 text-xs font-semibold text-amber-900 shadow-sm transition-colors hover:bg-amber-50"
-                >
-                  {copied ? (
-                    <>
-                      <Check className="h-4 w-4 text-green-600" />
-                      <span className="text-green-700">
-                        {language === "te" ? "చిరునామా కాపీ చేయబడింది!" : "Address Copied!"}
-                      </span>
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="h-4 w-4 text-amber-700" />
-                      <span>{language === "te" ? "చిరునామా కాపీ చేయండి" : "Copy Address"}</span>
-                    </>
-                  )}
-                </button>
-              </div>
+              <h3 className="font-display mt-3 text-3xl font-medium">Rose Villa</h3>
+              <p className="mt-3 text-[15px] leading-relaxed font-light text-muted-foreground">
+                {invitation.addressLine}
+                <br />
+                {invitation.city}
+              </p>
             </div>
 
-            {/* Travel Assistance Box */}
-            <div className="rounded-2xl border-2 border-dashed border-amber-400/80 bg-gradient-to-br from-amber-50 to-[#FFF9EE] p-6 shadow-inner">
-              <div className="flex items-center gap-2 text-[#7A121D] font-bold text-sm uppercase tracking-wider mb-4">
-                <Compass className="h-4 w-4" />
-                <span>{language === "te" ? "ప్రయాణ సూచనలు & పార్కింగ్" : "Travel & Parking Guide"}</span>
-              </div>
+            <ul className="space-y-4 text-sm font-light text-muted-foreground">
+              <li className="flex items-start gap-3">
+                <TramFront className="mt-0.5 h-4 w-4 shrink-0 text-gold-deep" />
+                <span>
+                  <strong className="font-medium text-foreground">By metro:</strong> Indiranagar
+                  station, 8 minutes on foot.
+                </span>
+              </li>
+              <li className="flex items-start gap-3">
+                <Car className="mt-0.5 h-4 w-4 shrink-0 text-gold-deep" />
+                <span>
+                  <strong className="font-medium text-foreground">By car:</strong> street parking
+                  on Palm Grove Lane, plus the school lot next door.
+                </span>
+              </li>
+              <li className="flex items-start gap-3">
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-gold-deep" />
+                <span>
+                  <strong className="font-medium text-foreground">Landmark:</strong> opposite the
+                  old banyan tree, two doors from Corner House.
+                </span>
+              </li>
+            </ul>
 
-              <div className="space-y-3 text-xs sm:text-sm text-[#4E3D34]">
-                <div className="flex items-start gap-2.5">
-                  <Car className="h-4 w-4 text-amber-700 mt-0.5 shrink-0" />
-                  <p>
-                    {language === "te"
-                      ? "విశాలమైన వాలెట్ మరియు సొంత కార్ పార్కింగ్ సదుపాయం కలదు."
-                      : "Valet and dedicated parking is available at the residence entrance."}
-                  </p>
-                </div>
-                <div className="flex items-start gap-2.5">
-                  <Navigation className="h-4 w-4 text-amber-700 mt-0.5 shrink-0" />
-                  <p>
-                    {language === "te"
-                      ? "మణికొండ మెయిన్ రోడ్ నుండి లక్ష్మీ నరసింహ స్వామి దేవాలయం వైపు వెళ్ళే మార్గంలో ప్లాట్ 108 ను సులభంగా గుర్తించవచ్చు."
-                      : "Easily accessible from Manikonda Main Road heading towards Sri Lakshmi Narasimha Temple."}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+            <a
+              href={MAPS_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center justify-center gap-2.5 rounded-full bg-primary px-6 py-3.5 text-xs font-medium uppercase tracking-[0.25em] text-primary-foreground transition-opacity hover:opacity-90"
+            >
+              <Navigation className="h-4 w-4" />
+              Get directions
+            </a>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 32 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.9, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            className="overflow-hidden rounded-2xl border border-border shadow-[0_24px_50px_-32px_rgb(0_0_0/0.4)] lg:col-span-3"
+          >
+            <iframe
+              title="Map showing the venue area"
+              src={EMBED_URL}
+              loading="lazy"
+              className="h-full min-h-[360px] w-full grayscale-[35%] sepia-[12%]"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          </motion.div>
         </div>
       </div>
     </section>

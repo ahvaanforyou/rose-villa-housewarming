@@ -1,98 +1,95 @@
+import { motion } from "motion/react";
+import { Copy, Check, MessageCircle, ArrowUp } from "lucide-react";
+import { useState } from "react";
 import { invitation } from "@/lib/invitation";
-import { useLanguage } from "@/lib/LanguageContext";
 import { Ornament } from "./Reveal";
-import { SacredDiya } from "../traditional/SacredDiya";
-import { Share2, Heart, Sparkles } from "lucide-react";
 
 export function Closing() {
-  const { t, language } = useLanguage();
+  const [copied, setCopied] = useState(false);
 
-  const handleShare = () => {
-    const text =
-      language === "te"
-        ? `శ్రీ ఆనంద నిలయం · గృహప్రవేశ ఆహ్వాన పత్రిక. మా నూతన గృహ ప్రవేశ శుభ సందర్భంగా మిమ్మల్ని సాదరంగా ఆహ్వానిస్తున్నాము: ${window.location.href}`
-        : `Sri Ananda Nilayam · Traditional Gruhapravesam Invitation. You're cordially invited: ${window.location.href}`;
+  const shareText = encodeURIComponent(
+    `You're invited! Housewarming of ${invitation.hosts.join(" & ")} — ${invitation.event.weekday}, ${invitation.event.dateLong}, ${invitation.event.startTime}. ${invitation.addressLine}, ${invitation.city}.`,
+  );
 
-    if (navigator.share) {
-      navigator.share({
-        title: t(invitation.houseName),
-        text,
-        url: window.location.href,
-      });
-    } else {
-      window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank");
+  async function copyLink() {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2200);
+    } catch {
+      // clipboard blocked — nothing to show
     }
-  };
+  }
 
   return (
-    <footer className="relative overflow-hidden bg-gradient-to-b from-[#240509] via-[#35080E] to-[#1A0306] py-20 sm:py-28 text-amber-100 text-center">
-      {/* Golden Ambient Rings */}
+    <footer className="relative overflow-hidden bg-deeper py-24 text-primary-foreground sm:py-32">
       <div
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.12)_0%,transparent_70%)]"
-        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgb(255_255_255/0.05),transparent_55%)]"
+        aria-hidden
       />
 
-      <div className="relative mx-auto max-w-3xl px-4 sm:px-6 flex flex-col items-center">
-        {/* Sacred Diya Lamp */}
-        <SacredDiya size="lg" className="mb-6" />
-
-        {/* Auspicious Shloka */}
-        <p className="font-serif text-lg sm:text-2xl font-bold text-amber-300 tracking-wider">
-          || సర్వే జనాః సుఖినో భవంతు ||
-        </p>
-        <p className="font-serif text-sm sm:text-base text-amber-200/80 mt-1">
-          || లోకాః సమస్తాః సుఖినో భవంతు ||
-        </p>
-
-        <Ornament className="my-6" />
-
-        {/* Closing Thank You Message */}
-        <h3 className="font-serif text-2xl sm:text-4xl font-bold text-amber-100">
-          {language === "te" ? "మీ రాకయే మాకు ఆనందం మరియు ఆశీర్వాదం" : "Your Gracious Presence is Our Greatest Blessing"}
-        </h3>
-
-        <p className="font-serif mt-4 text-base sm:text-lg text-amber-200/90 max-w-xl italic leading-relaxed">
-          {language === "te"
-            ? "మా నూతన గృహప్రవేశ వేడుకకు విచ్చేసి, మంగళప్రదమైన పూజా కార్యక్రమాలలో పాల్గొని, మమ్మల్ని ఆశీర్వదించండి."
-            : "Please grace our new home, partake in the sacred rituals and celebratory lunch feast, and shower your blessings."}
-        </p>
-
-        {/* Host Names */}
-        <div className="mt-8 rounded-2xl border-2 border-amber-400/60 bg-[#4A0E15]/80 px-8 py-4 shadow-2xl backdrop-blur-sm">
-          <p className="font-serif text-xl sm:text-2xl font-bold text-amber-200">
-            {t(invitation.family)}
+      <div className="relative mx-auto max-w-3xl px-6 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 36 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <Ornament />
+          <p className="font-display mt-10 text-3xl leading-snug font-light text-primary-foreground/90 sm:text-4xl">
+            May every corner of this home echo with laughter,
+            <br className="hidden sm:block" /> may its kitchen always smell of something
+            delicious,
+            <br className="hidden sm:block" /> and may everyone who enters leave happier.
           </p>
-          <p className="text-xs text-amber-300/80 tracking-widest uppercase mt-1">
-            {t(invitation.houseName)} · Hyderabad
+          <p className="mt-8 text-[11px] font-medium uppercase tracking-[0.4em] text-gold">
+            With love & gratitude
           </p>
-        </div>
+          <p className="font-display mt-3 text-2xl text-gold-shimmer">{invitation.family}</p>
+        </motion.div>
 
-        {/* Share Button */}
-        <div className="mt-8">
-          <button
-            type="button"
-            onClick={handleShare}
-            className="inline-flex items-center gap-2.5 rounded-full border-2 border-amber-400 bg-gradient-to-r from-amber-600 to-amber-700 px-7 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider text-amber-950 shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
-          >
-            <Share2 className="h-4 w-4" />
-            <span>{language === "te" ? "ఆహ్వాన పత్రికను షేర్ చేయండి" : "Share Invitation"}</span>
-          </button>
-        </div>
-
-        {/* Ahvaan For You Branding */}
-        <div className="mt-14 pt-8 border-t border-amber-400/20 w-full flex flex-col items-center">
-          <p className="text-xs uppercase tracking-[0.3em] text-amber-300/60 font-semibold">
-            Crafted with Devotion by
-          </p>
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.25 }}
+          className="mt-12 flex flex-wrap items-center justify-center gap-4"
+        >
           <a
-            href="https://www.ahvaanforyou.com"
+            href={`https://wa.me/?text=${shareText}`}
             target="_blank"
             rel="noreferrer"
-            className="mt-1 text-sm font-serif font-bold text-amber-300 hover:text-amber-200 transition-colors"
+            className="inline-flex items-center gap-2.5 rounded-full border border-gold/50 px-6 py-3 text-xs font-medium uppercase tracking-[0.25em] text-gold transition-all hover:bg-gold hover:text-deeper"
           >
-            Ahvaan for You • Luxury Digital Invitations
+            <MessageCircle className="h-4 w-4" />
+            Share on WhatsApp
           </a>
-        </div>
+          <button
+            onClick={copyLink}
+            className="inline-flex items-center gap-2.5 rounded-full border border-gold/50 px-6 py-3 text-xs font-medium uppercase tracking-[0.25em] text-gold transition-all hover:bg-gold hover:text-deeper"
+          >
+            {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+            {copied ? "Link copied!" : "Copy invitation link"}
+          </button>
+        </motion.div>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="mt-14 text-[11px] font-light tracking-[0.2em] text-primary-foreground/40 uppercase"
+        >
+          {invitation.event.dateLong} · {invitation.addressLine} · {invitation.city}
+        </motion.p>
+
+        <a
+          href="#welcome"
+          className="mt-8 inline-flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-gold/70 transition-colors hover:text-gold"
+        >
+          <ArrowUp className="h-4 w-4" />
+          Back to the top
+        </a>
       </div>
     </footer>
   );

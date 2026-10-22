@@ -1,153 +1,96 @@
 import { motion } from "motion/react";
 import roomLiving from "@/assets/room-living.jpg";
 import { invitation } from "@/lib/invitation";
-import { useLanguage } from "@/lib/LanguageContext";
-import { Reveal, Ornament } from "./Reveal";
-import { SacredDiya } from "../traditional/SacredDiya";
-import { Sparkles, Heart } from "lucide-react";
+import { Ornament, Reveal } from "./Reveal";
 
 export function Welcome() {
-  const { t, language } = useLanguage();
-
   return (
-    <section id="welcome" className="relative overflow-hidden py-20 sm:py-28 bg-[#FAF6EE]">
-      {/* Decorative Traditional Toranam / Golden Ambient Accents */}
+    <section id="welcome" className="relative overflow-hidden py-24 sm:py-32">
       <div
-        className="pointer-events-none absolute -top-24 -left-24 h-96 w-96 rounded-full bg-amber-200/40 blur-3xl"
-        aria-hidden="true"
+        className="pointer-events-none absolute -top-24 -left-24 h-96 w-96 rounded-full bg-gold/10 blur-3xl"
+        aria-hidden
       />
-      <div
-        className="pointer-events-none absolute top-1/2 -right-24 h-96 w-96 rounded-full bg-red-100/40 blur-3xl"
-        aria-hidden="true"
-      />
+      <div className="mx-auto grid max-w-6xl items-center gap-14 px-6 lg:grid-cols-2 lg:gap-20">
+        <div>
+          <Reveal>
+            <p className="text-[11px] font-medium uppercase tracking-[0.35em] text-gold-deep">
+              With heartfelt joy
+            </p>
+            <h2 className="font-display mt-4 text-4xl leading-[1.08] font-medium text-balance sm:text-5xl">
+              Welcome to our <em className="text-primary not-italic">new home</em>
+            </h2>
+            <Ornament className="mt-6 justify-start" />
+          </Reveal>
 
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        {/* Section Top Header Pill */}
-        <div className="flex flex-col items-center text-center mb-12">
-          <div className="inline-flex items-center gap-2 rounded-full border border-amber-600/40 bg-amber-50 px-5 py-1 shadow-sm">
-            <span className="text-xs font-bold uppercase tracking-[0.3em] text-[#7A121D]">
-              {language === "te" ? "హృదయపూర్వక ఆహ్వానం" : "Sacred Welcome Message"}
-            </span>
-          </div>
+          <Reveal delay={0.15}>
+            <p className="mt-8 text-[15px] leading-relaxed font-light text-muted-foreground sm:text-base">
+              After two years of drawings, delays, cement dust and endless site visits, the
+              keys are finally in our hands. The walls are painted, the lamps are lit, and
+              the kettle is already on.
+            </p>
+            <p className="mt-4 text-[15px] leading-relaxed font-light text-muted-foreground sm:text-base">
+              But a house only becomes a home when the people we love walk through its
+              door. So we're opening every room, laying the table for twelve, and keeping
+              the whole day free — just for you.
+            </p>
+            <p className="mt-4 text-[15px] leading-relaxed font-light text-muted-foreground sm:text-base">
+              Come bless our beginning. Bring your families, your appetites and your
+              loudest laughter.
+            </p>
+          </Reveal>
 
-          <h2 className="font-serif mt-4 text-3xl sm:text-5xl font-bold text-[#4A0E15] tracking-tight">
-            {language === "te"
-              ? "మా నూతన గృహప్రవేశ ఆహ్వానం"
-              : "Welcome to Our New Residence"}
-          </h2>
-
-          <Ornament className="mt-4" />
-        </div>
-
-        {/* Heavy Ornate Card Container */}
-        <div className="traditional-card p-6 sm:p-12 border-2 border-amber-500/50 bg-[#FFFDF9] shadow-[0_20px_60px_-15px_rgba(90,14,23,0.18)]">
-          <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-            {/* Left Content Column */}
-            <div>
-              <Reveal>
-                <div className="flex items-center gap-2 mb-3">
-                  <div className="h-2.5 w-2.5 rounded-full bg-red-700 shadow-sm" />
-                  <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#7A121D]">
-                    {language === "te" ? "సర్వే జనాః సుఖినో భవంతు" : "With Divine Blessings"}
-                  </p>
-                </div>
-
-                <h3 className="font-serif text-2xl sm:text-3xl font-semibold leading-snug text-[#4A0E15]">
-                  {t(invitation.houseName)} · {t(invitation.family)}
-                </h3>
-              </Reveal>
-
-              <Reveal delay={0.15}>
-                <p className="mt-6 font-serif text-base sm:text-lg font-medium leading-relaxed text-[#5A0E17] italic border-l-4 border-amber-500 pl-4 py-1 bg-amber-50/60 rounded-r-lg">
-                  “{t(invitation.welcomeIntro)}”
+          <Reveal delay={0.25}>
+            <div className="mt-10 flex items-end justify-between gap-6 border-t border-border pt-6">
+              <div>
+                <p className="font-display text-2xl text-primary">
+                  {invitation.hosts.join(", ")} &
+                  <span className="text-foreground/80"> the kids</span>
                 </p>
-
-                <div className="mt-6 space-y-4 text-sm sm:text-base leading-relaxed text-[#4A3B32]">
-                  {invitation.welcomeParas[language].map((para, i) => (
-                    <p key={i} className="font-normal">
-                      {para}
-                    </p>
-                  ))}
-                </div>
-              </Reveal>
-
-              <Reveal delay={0.25}>
-                <div className="mt-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-t-2 border-dashed border-amber-300 pt-6">
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.2em] text-[#7A121D] font-bold">
-                      {language === "te" ? "ఆహ్వానించువారు (Hosts)" : "Graciously Invited By"}
-                    </p>
-                    <p className="font-serif text-lg sm:text-xl font-bold text-[#4A0E15] mt-1">
-                      {invitation.hosts[language].join(" & ")}
-                    </p>
-                    <p className="text-xs text-amber-900/80 tracking-wide mt-0.5">
-                      {language === "te"
-                        ? `పిల్లలు: ${invitation.kids.te.join(" & ")}`
-                        : `Children: ${invitation.kids.en.join(" & ")}`}
-                    </p>
-                  </div>
-
-                  <div className="flex items-center gap-2 self-start sm:self-auto rounded-full bg-amber-100/80 px-4 py-2 border border-amber-300 text-xs font-semibold text-amber-900">
-                    <Heart className="h-4 w-4 text-red-600 fill-red-600" />
-                    <span>{language === "te" ? "సకుటుంబ సపరివార సమేతంగా" : "With Family"}</span>
-                  </div>
-                </div>
-              </Reveal>
+                <p className="mt-1 text-xs uppercase tracking-[0.25em] text-muted-foreground">
+                  {invitation.kids.join(" · ")} — chief home-tour guides
+                </p>
+              </div>
+              <span className="font-display text-5xl text-gold/60 italic" aria-hidden>
+                ”
+              </span>
             </div>
-
-            {/* Right Photo Column with Ornate Filigree Frame */}
-            <Reveal delay={0.2} y={30}>
-              <motion.div
-                className="relative mx-auto max-w-md lg:max-w-none"
-                whileHover={{ scale: 1.015 }}
-                transition={{ type: "spring", stiffness: 120, damping: 16 }}
-              >
-                {/* Layered Antique Gold Frame */}
-                <div
-                  className="absolute -inset-3 rotate-1 rounded-2xl border-2 border-amber-500/60 bg-amber-50/50 shadow-md"
-                  aria-hidden="true"
-                />
-
-                <div className="relative -rotate-1 overflow-hidden rounded-2xl border-2 border-amber-600 bg-neutral-900 shadow-[0_25px_50px_-20px_rgba(90,14,23,0.35)]">
-                  <motion.img
-                    src={roomLiving}
-                    alt="Interior of Sri Ananda Nilayam glowing with lamps"
-                    width={1200}
-                    height={1200}
-                    loading="lazy"
-                    className="h-full w-full object-cover filter brightness-[0.95]"
-                    initial={{ scale: 1.1 }}
-                    whileInView={{ scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 2, ease: [0.22, 1, 0.36, 1] }}
-                  />
-
-                  {/* Gradient Bottom Shadow */}
-                  <div
-                    className="absolute inset-0 bg-gradient-to-t from-[#240509]/90 via-transparent to-transparent"
-                    aria-hidden="true"
-                  />
-
-                  {/* Sacred Quote at Bottom of Photo */}
-                  <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
-                    <div>
-                      <p className="font-serif text-base sm:text-lg text-amber-100 font-semibold italic">
-                        {language === "te"
-                          ? "“మంగళప్రదమైన నవ గృహ ప్రవేశం”"
-                          : "“A Home Consecrated in Peace and Grace”"}
-                      </p>
-                      <p className="text-[11px] text-amber-300 tracking-wider">
-                        {language === "te" ? "శ్రీ ఆనంద నిలయం · 2026" : "Sri Ananda Nilayam · Hyderabad"}
-                      </p>
-                    </div>
-
-                    <SacredDiya size="sm" showStand={false} />
-                  </div>
-                </div>
-              </motion.div>
-            </Reveal>
-          </div>
+          </Reveal>
         </div>
+
+        {/* Framed portrait of the home */}
+        <Reveal delay={0.2} y={48}>
+          <motion.div
+            className="relative mx-auto max-w-md lg:max-w-none"
+            whileHover={{ rotate: 0, scale: 1.015 }}
+            transition={{ type: "spring", stiffness: 120, damping: 16 }}
+          >
+            <div
+              className="absolute -inset-3 rotate-2 rounded-2xl border border-gold/50 bg-card"
+              aria-hidden
+            />
+            <div className="relative -rotate-1 overflow-hidden rounded-2xl border border-gold/30 shadow-[0_30px_60px_-25px_rgb(0_0_0/0.35)]">
+              <motion.img
+                src={roomLiving}
+                alt="A warm living corner of the new home"
+                width={1200}
+                height={1200}
+                loading="lazy"
+                className="h-full w-full object-cover"
+                initial={{ scale: 1.12 }}
+                whileInView={{ scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 2.4, ease: [0.22, 1, 0.36, 1] }}
+              />
+              <div
+                className="absolute inset-0 bg-[linear-gradient(to_top,rgb(0_0_0/0.25),transparent_45%)]"
+                aria-hidden
+              />
+              <p className="font-display absolute bottom-5 left-6 right-6 text-lg text-primary-foreground/90 italic">
+                “The first lamp we lit — 6:04 PM, 14 October 2026.”
+              </p>
+            </div>
+          </motion.div>
+        </Reveal>
       </div>
     </section>
   );

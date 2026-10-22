@@ -1,129 +1,115 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
+import { HeartHandshake } from "lucide-react";
+import { useEffect, useState, type FormEvent } from "react";
 import { invitation } from "@/lib/invitation";
-import { useLanguage } from "@/lib/LanguageContext";
-import { Ornament } from "./Reveal";
-import { MessageSquarePlus, Heart, Sparkles, Send } from "lucide-react";
+import { SectionHeading } from "./Reveal";
+
+type Wish = { name: string; message: string; date: string };
+
+const STORAGE_KEY = "housewarming-wishes";
+
+const inputClass =
+  "w-full rounded-xl border border-input bg-background px-4 py-3 text-sm font-light text-foreground placeholder:text-muted-foreground/60 outline-none transition-colors focus:border-gold focus:ring-2 focus:ring-gold/30";
 
 export function Wishes() {
-  const { t, language } = useLanguage();
-  const [wishes, setWishes] = useState(invitation.seedWishes);
+  const [wishes, setWishes] = useState<Wish[]>([...invitation.seedWishes]);
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
 
-  const handleAddWish = (e: React.FormEvent) => {
+  // Merge visitor wishes saved in this browser with the seeded ones.
+  useEffect(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "[]") as Wish[];
+      if (Array.isArray(saved) && saved.length) setWishes([...saved, ...invitation.seedWishes]);
+    } catch {
+      // first visit — seeded wishes only
+    }
+  }, []);
+
+  function addWish(e: FormEvent) {
     e.preventDefault();
     if (!name.trim() || !message.trim()) return;
-
-    setWishes([
-      {
-        name: name.trim(),
-        message: message.trim(),
-        date: language === "te" ? "ఇప్పుడే" : "Just now",
-      },
-      ...wishes,
-    ]);
-
+    const wish: Wish = {
+      name: name.trim(),
+      message: message.trim(),
+      date: new Date().toLocaleDateString("en-GB", { day: "numeric", month: "short" }),
+    };
+    setWishes((w) => [wish, ...w]);
+    try {
+      const existing = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "[]") as Wish[];
+      localStorage.setItem(STORAGE_KEY, JSON.stringify([wish, ...existing]));
+    } catch {
+      // storage unavailable — wish still shows for this visit
+    }
     setName("");
     setMessage("");
-  };
+  }
 
   return (
-    <section id="wishes" className="relative overflow-hidden py-20 sm:py-28 bg-[#FAF6EE]">
-      <div className="mx-auto max-w-5xl px-4 sm:px-6">
-        {/* Section Header */}
-        <div className="flex flex-col items-center text-center mb-14">
-          <div className="inline-flex items-center gap-2 rounded-full border border-amber-600/40 bg-amber-50 px-5 py-1 shadow-sm">
-            <span className="text-xs font-bold uppercase tracking-[0.3em] text-[#7A121D]">
-              {language === "te" ? "శుభాశీస్సులు & సందేశాలు" : "Blessings & Guestbook"}
-            </span>
-          </div>
+    <section id="wishes" className="py-24 sm:py-32">
+      <div className="mx-auto max-w-6xl px-6">
+        <SectionHeading
+          eyebrow="From your hearts to our walls"
+          title="Wishes & blessings"
+          intro="Leave a blessing for the new home — we're printing every one of these for the hallway wall."
+        />
 
-          <h2 className="font-serif mt-4 text-3xl sm:text-5xl font-bold text-[#4A0E15] tracking-tight">
-            {language === "te"
-              ? "బంధుమిత్రుల మంగళాశాసనాలు"
-              : "Heartfelt Wishes for Sri Ananda Nilayam"}
-          </h2>
+        <motion.form
+          onSubmit={addWish}
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          className="mx-auto mt-12 flex max-w-3xl flex-col gap-3 rounded-2xl border border-border bg-card p-5 shadow-[0_20px_45px_-30px_rgb(0_0_0/0.4)] sm:flex-row"
+        >
+          <input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Your name"
+            className={`${inputClass} sm:max-w-[180px]`}
+            aria-label="Your name"
+          />
+          <input
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder="Write your blessing for the new home…"
+            className={inputClass}
+            aria-label="Your blessing"
+          />
+          <button
+            type="submit"
+            className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 text-xs font-medium uppercase tracking-[0.2em] text-primary-foreground transition-opacity hover:opacity-90"
+          >
+            <HeartHandshake className="h-4 w-4" />
+            Bless
+          </button>
+        </motion.form>
 
-          <p className="mt-3 max-w-xl text-sm sm:text-base text-[#6B5B52] font-serif">
-            {language === "te"
-              ? "నూతన గృహ ప్రవేశ శుభ సందర్భంగా మీ అమూల్యమైన శుభాకాంక్షలను తెలపండి"
-              : "Leave your blessings and congratulations for the new beginning"}
-          </p>
-
-          <Ornament className="mt-4" />
-        </div>
-
-        {/* Post a Wish Form */}
-        <div className="traditional-card p-6 sm:p-8 mb-12 border-2 border-amber-500/50 bg-[#FFFDF9] shadow-[0_15px_40px_rgba(90,14,23,0.1)]">
-          <form onSubmit={handleAddWish} className="space-y-4">
-            <div className="flex items-center gap-2 text-[#7A121D] font-bold text-sm uppercase tracking-wider mb-2">
-              <MessageSquarePlus className="h-4 w-4" />
-              <span>{language === "te" ? "మీ శుభాకాంక్షలను వ్రాయండి" : "Write Your Blessing"}</span>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <input
-                type="text"
-                required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder={language === "te" ? "మీ పేరు (Your Name)" : "Your Name"}
-                className="w-full rounded-xl border border-amber-300 bg-white px-4 py-2.5 text-sm text-[#3D2C24] shadow-sm focus:border-amber-500 focus:outline-none"
-              />
-
-              <input
-                type="text"
-                required
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                placeholder={
-                  language === "te"
-                    ? "మీ ఆశీర్వాదం / సందేశం (Your Blessing Message)"
-                    : "Your warm wishes & blessings..."
-                }
-                className="sm:col-span-2 w-full rounded-xl border border-amber-300 bg-white px-4 py-2.5 text-sm text-[#3D2C24] shadow-sm focus:border-amber-500 focus:outline-none"
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="inline-flex items-center gap-2 rounded-full border border-amber-400 bg-gradient-to-r from-amber-600 to-amber-700 px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-amber-950 shadow-md transition-all hover:scale-105 active:scale-95"
-            >
-              <Send className="h-3.5 w-3.5" />
-              <span>{language === "te" ? "సందేశం పంపండి" : "Post Blessing"}</span>
-            </button>
-          </form>
-        </div>
-
-        {/* Wishes Masonry Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="mt-12 columns-1 gap-6 sm:columns-2 lg:columns-3">
           <AnimatePresence initial={false}>
-            {wishes.map((w, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.4 }}
-                className="traditional-card p-5 sm:p-6 border border-amber-400/60 bg-[#FFFDF9] shadow-[0_8px_20px_rgba(90,14,23,0.06)] hover:border-amber-500 transition-colors"
+            {wishes.map((wish, i) => (
+              <motion.blockquote
+                key={`${wish.name}-${wish.message.slice(0, 16)}-${i}`}
+                layout
+                initial={{ opacity: 0, y: 24, scale: 0.97 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.96 }}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                className="mb-6 block break-inside-avoid rounded-2xl border border-border bg-card p-6 shadow-[0_16px_36px_-28px_rgb(0_0_0/0.4)]"
               >
-                <div className="flex items-center justify-between border-b border-amber-200/60 pb-2.5 mb-3">
-                  <div className="flex items-center gap-2">
-                    <Heart className="h-4 w-4 text-red-600 fill-red-600" />
-                    <span className="font-serif text-sm sm:text-base font-bold text-[#4A0E15]">
-                      {w.name}
-                    </span>
-                  </div>
-                  <span className="text-[11px] text-[#7A121D] font-medium">
-                    {w.date}
-                  </span>
-                </div>
-
-                <p className="font-serif text-xs sm:text-sm leading-relaxed text-[#4A3B32] italic">
-                  “{w.message}”
+                <span className="font-display text-4xl leading-none text-gold/50" aria-hidden>
+                  “
+                </span>
+                <p className="mt-2 text-[15px] leading-relaxed font-light text-foreground/90">
+                  {wish.message}
                 </p>
-              </motion.div>
+                <footer className="mt-4 flex items-center justify-between text-xs text-muted-foreground">
+                  <span className="font-medium tracking-wide text-foreground">
+                    — {wish.name}
+                  </span>
+                  <span className="uppercase tracking-[0.2em] text-gold-deep">{wish.date}</span>
+                </footer>
+              </motion.blockquote>
             ))}
           </AnimatePresence>
         </div>
